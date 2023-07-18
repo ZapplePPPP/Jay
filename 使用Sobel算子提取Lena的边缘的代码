@@ -1,0 +1,22 @@
+import cv2
+import numpy as np
+
+# 加载图像
+lena = cv2.imread('lena.jpg', cv2.IMREAD_GRAYSCALE)
+
+# 应用Sobel算子
+sobelx = cv2.Sobel(lena, cv2.CV_64F, 1, 0, ksize=3)
+sobely = cv2.Sobel(lena, cv2.CV_64F, 0, 1, ksize=3)
+
+# 取绝对值并将结果缩放到0-255范围内
+sobelx = cv2.convertScaleAbs(sobelx)
+sobely = cv2.convertScaleAbs(sobely)
+
+# 将x和y方向的边缘图像相加
+sobel = cv2.addWeighted(sobelx, 0.5, sobely, 0.5, 0)
+
+# 显示结果
+cv2.imshow('Original', lena)
+cv2.imshow('Sobel', sobel)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
